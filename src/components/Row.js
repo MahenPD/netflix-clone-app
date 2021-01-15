@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Row.css";
 import axios from "../axios";
 import YouTube from "react-youtube";
-import movieTrailer from 'movie-trailer';
+import movieTrailer from "movie-trailer";
 
 function Row(props) {
   const { title, fetchUrl, isLargeRow } = props;
@@ -27,14 +27,14 @@ function Row(props) {
     },
   };
 
-  const handleOnClick = (movie) => {
+  const handleClick = (movie) => {
     if (trailerUrl) {
       setTrailerUrl("");
     } else {
-      movieTrailer(movie?.name || "")
+      movieTrailer(movie?.title || "")
         .then((url) => {
           const urlParams = new URLSearchParams(new URL(url).search);
-          urlParams.get("v");
+          setTrailerUrl(urlParams.get("v"));
         })
         .catch((error) => console.log(error));
     }
@@ -49,7 +49,7 @@ function Row(props) {
           return (
             <img
               key={movie.id}
-              onClick={handleOnClick(movie)}
+              onClick={() => handleClick(movie)}
               className={`row__poster ${isLargeRow && "row__posterLarge"}`}
               src={`${base_url}${
                 isLargeRow ? movie.poster_path : movie.backdrop_path

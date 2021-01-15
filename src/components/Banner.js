@@ -9,7 +9,11 @@ function Banner() {
   useEffect(() => {
     async function fetchData() {
       const request = await axios.get(requests.fetchNetflixOriginals);
-      setMovie(Math.floor(Math.random() * request.data.results.length));
+      setMovie(
+        request.data.results[
+          Math.floor(Math.random() * request.data.results.length - 1)
+        ]
+      );
       return request;
     }
 
@@ -38,7 +42,9 @@ function Banner() {
           <button className="banner__button">My List</button>
         </div>
 
-        <h1 className="banner__description">{truncate(movie?.overview, 150)}</h1>
+        <h1 className="banner__description">
+          {truncate(movie?.overview, 150)}
+        </h1>
       </div>
 
       <div className="header--fadeBottom"></div>
